@@ -1,0 +1,10 @@
+{
+    "id": "Node.js",
+    "version": "1.0.0",
+    "name": "Node.js",
+    "description": "Installs Node.js along with needed dependencies.",
+    "options": {
+        },
+    "installsAfter": [
+    ]
+}

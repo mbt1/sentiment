@@ -1,0 +1,10 @@
+{
+    "id": "React",
+    "version": "1.0.0",
+    "name": "React",
+    "description": "Installs React along with needed dependencies.",
+    "options": {
+        },
+    "installsAfter": [
+    ]
+}
