@@ -9,6 +9,7 @@
 	"features": {
 		"./Flask":{},
 		"./Node.js":{},
+		"./React":{},
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
