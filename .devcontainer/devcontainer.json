@@ -4,12 +4,15 @@
 	"name": "Sentiment (Python)",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/python",
-
+	"remoteEnv": {
+		"MASTODON_SENTIMENT_MASTODON_API_KEY": "${localEnv:MASTODON_SENTIMENT_MASTODON_API_KEY}"
+	},	
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"./Flask":{},
 		"./Node.js":{},
 		"./React":{},
+		"./Mastodon":{},
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
