@@ -40,6 +40,30 @@ This is the proposed architecture for the Mastodon sentiment analysis applicatio
 
 3. **CORS**: Make sure CORS settings are correctly set in your Azure Function to accept requests from your GitHub Pages domain.
 
-4. **Rate Limiting**: Consider implementing rate limiting on your Azure Function to prevent abuse.
+4. **Captcha**: Use Google Captch V3.0 to limit API misuse
+
+5. **Rate Limiting**: Consider implementing rate limiting on your Azure Function to prevent abuse.
 
 Each of these components could be in a monorepo. Make sure to have good README files for each so that any developer can understand how to run or contribute to each component.
+
+### Captcha 
+
+When using a CAPTCHA service like Google's reCAPTCHA, you'll need two keys: a "site key" that is publicly visible and used within the client-side JavaScript, and a "secret key" that should be kept secure on the server-side. The "site key" is used to display the CAPTCHA challenge in the browser, and the "secret key" is used to verify the user's answer on the server-side.
+
+Here's a simplified workflow:
+
+1. **Client-Side**: When the user navigates to the page requiring a CAPTCHA, your React app uses the "site key" to request and display the CAPTCHA challenge from Google's servers.
+  
+2. **User Action**: The user completes the CAPTCHA challenge.
+
+3. **Client-Side**: Once the CAPTCHA is completed, Google's servers provide a "response" token, which your React app then sends to your backend server along with any other data (like the API request you want to make).
+
+4. **Server-Side**: Your backend receives this "response" token and uses the "secret key" to call Google's server for verification.
+
+5. **Verification**: Google's server will respond to your server, confirming whether or not the CAPTCHA was successfully completed.
+
+6. **Server Response**: Depending on the verification result, your server will then either process the user's original API request or return an error.
+
+So, while your React app does "provide a token to the CAPTCHA provider," this token is not the same as the "secret key," which remains secure on your server. The token provided by Google is specifically meant to be passed back to your server for verification. This is adding an additional layer of verification that is intended to ensure that the request comes from a human.
+
+That said, like any other API, CAPTCHAs aren't foolproof. They add an additional layer of security but shouldn't be the only measure you take. Combining them with other security best practices can make your API more resilient to misuse.
