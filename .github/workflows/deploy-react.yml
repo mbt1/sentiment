@@ -21,7 +21,11 @@ jobs:
     - name: Install dependencies
       run: sh ../.devcontainer/React/installReactDependencies.sh
       working-directory: ./frontend
-
+  
+    - name: List dependencies
+      run: npm list -g --depth=0
+      working-directory: ./frontend
+  
     - name: Build
       run: npm run build
       working-directory: ./frontend
