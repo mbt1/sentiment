@@ -19,7 +19,7 @@ jobs:
         node-version: '14.x'  # You can specify your Node.js version here
 
     - name: Install dependencies
-      run: sh ../.devcontainer/React/install.sh
+      run: sh ../.devcontainer/React/installReactDependencies.sh
       working-directory: ./frontend
 
     - name: Build
