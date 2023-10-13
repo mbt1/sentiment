@@ -163,14 +163,15 @@ cython_debug/
 
 # dependencies
 /node_modules
+/frontend/node_modules
 /.pnp
 .pnp.js
 
 # testing
-/coverage
+/frontend/coverage
 
 # production
-/dist
+/frontend/dist
 
 # misc
 .DS_Store
