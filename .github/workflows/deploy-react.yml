@@ -35,4 +35,4 @@ jobs:
       with:
         branch: gh-pages  # Deployment branch
         folder: ./frontend/dist  # Folder where your build is located
-        access-token: ${{ secrets.GITHUB_TOKEN }}  # GitHub will automatically create this secret for you
+        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub will automatically create this secret for you
