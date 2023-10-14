@@ -25,7 +25,8 @@ jobs:
     - name: more dependenciew
       run: 
         npm install copy-webpack-plugin --save-dev
-        npm install -D webpack-cli
+        npm install clean-webpack-plugin --save-dev
+        npm install webpack-cli --save-dev
       working-directory: ./frontend
   
     - name: List dependencies
