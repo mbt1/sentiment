@@ -18,9 +18,9 @@ jobs:
       with:
         node-version: '18.x'  # You can specify your Node.js version here
 
-    - name: Install dependencies
-      run: sh ../.devcontainer/React/installReactDependencies.sh
-      working-directory: ./frontend
+    # - name: Install dependencies
+    #   run: sh ../.devcontainer/React/installReactDependencies.sh
+    #   working-directory: ./frontend
   
     - name: more dependenciew
       run: 
@@ -29,6 +29,7 @@ jobs:
         npm install --save-dev webpack-cli
         npm install --save-dev babel-loader
         npm install --save-dev @babel/preset-env
+        npm install --save-dev @babel/preset-react
       working-directory: ./frontend
   
     - name: List dependencies
