@@ -1,7 +1,8 @@
 export PATH=$PATH:$(dirname $(which npm))
 npm install
-npm install -g react react-dom 
-npm install -g webpack webpack-dev-server webpack-cli
-npm install -g @babel/core @babel/preset-env @babel/preset-react babel-loader
+# npm install -g react react-dom 
+# npm install -g webpack webpack-dev-server webpack-cli
+# npm install -g @babel/core @babel/preset-env @babel/preset-react babel-loader
 npm install -g express
-npm install -g copy-webpack-plugin
+# npm install -g webpack-cli
+# npm install -g copy-webpack-plugin
