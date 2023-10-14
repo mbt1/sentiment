@@ -24,9 +24,10 @@ jobs:
   
     - name: more dependenciew
       run: 
-        npm install copy-webpack-plugin --save-dev
-        npm install clean-webpack-plugin --save-dev
-        npm install webpack-cli --save-dev
+        npm install --save-dev copy-webpack-plugin
+        npm install --save-dev clean-webpack-plugin
+        npm install --save-dev webpack-cli
+        npm install --save-dev babel-loader
       working-directory: ./frontend
   
     - name: List dependencies
