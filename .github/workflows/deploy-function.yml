@@ -5,70 +5,42 @@ on:
     branches:
       - main  # replace with your default branch if not 'main'
 
+env:
+  AZURE_FUNCTIONAPP_NAME: 'sentimentabot'   # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './backend'       # set this to the path to your function app project, defaults to the repository root
+  PYTHON_VERSION: '3.12'                     # set this to the python version to use (e.g. '3.6', '3.7', '3.8')
+      
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
 
-    - name: Set up Python
+    - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12' 
+        python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: Install dependencies
+    - name: 'Resolve Project Dependencies Using Pip'
+      shell: bash
       run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-      working-directory: ./backend
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        popd
 
-    - name: Login to Azure
-      uses: azure/login@v1
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Convert XML to JSON and Sanitize
-      run: |
-        $xmlContent = [xml]$env:AZURE_PUBLISH_PROFILE
-        $jsonObject = @{}
-    
-        function Convert-XmlNodeToJson ($node) {
-            $childJson = @{}
-            foreach ($childNode in $node.ChildNodes) {
-            if ($childNode.NodeType -eq 'Element') {
-                $childJson[$childNode.Name] = Convert-XmlNodeToJson $childNode
-            }
-            }
-            if ($node.HasAttributes) {
-            foreach ($attribute in $node.Attributes) {
-                $childJson["_$($attribute.Name)"] = "0"
-            }
-            }
-            if ($node.HasChildNodes -eq $false) {
-            return "0"
-            }
-            return $childJson
-        }
-    
-        $jsonObject = Convert-XmlNodeToJson $xmlContent.DocumentElement
-        $jsonString = $jsonObject | ConvertTo-Json -Depth 100
-    
-        Write-Host "Sanitized JSON:"
-        Write-Host $jsonString
-      shell: pwsh
-      env:
-        AZURE_PUBLISH_PROFILE: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-      
-
-    - name: Deploy to Azure Functions
-      uses: azure/functions-action@v1.5.1
-      with:
-        app-name: sentimentabot
-        package: ./backend
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-
+        scm-do-build-during-deployment: true
+        enable-oryx-build: true
+  
 
 # Run the following commands in an Azure Cloud Shell terminal to get the values for the two secrets
 # az account set --subscription DemoAndPortfolioProjects
