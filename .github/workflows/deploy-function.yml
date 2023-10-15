@@ -32,19 +32,31 @@ jobs:
     - name: Convert XML to JSON and Sanitize
       run: |
         $xmlContent = [xml]$env:AZURE_PUBLISH_PROFILE
-        foreach ($node in $xmlContent.SelectNodes("//*")) {
-        if ($node.HasAttributes) {
-            foreach ($attribute in $node.Attributes) {
-            $attribute.Value = "0"
+        $jsonObject = @{}
+    
+        function Convert-XmlNodeToJson ($node) {
+            $childJson = @{}
+            foreach ($childNode in $node.ChildNodes) {
+            if ($childNode.NodeType -eq 'Element') {
+                $childJson[$childNode.Name] = Convert-XmlNodeToJson $childNode
             }
+            }
+            if ($node.HasAttributes) {
+            foreach ($attribute in $node.Attributes) {
+                $childJson["_$($attribute.Name)"] = "0"
+            }
+            }
+            if ($node.HasChildNodes -eq $false) {
+            return "0"
+            }
+            return $childJson
         }
-        if ($node.HasChildNodes -eq $false) {
-            $node.InnerText = "0"
-        }
-        }
-        $jsonContent = $xmlContent | ConvertTo-Json -Depth 100
+    
+        $jsonObject = Convert-XmlNodeToJson $xmlContent.DocumentElement
+        $jsonString = $jsonObject | ConvertTo-Json -Depth 100
+    
         Write-Host "Sanitized JSON:"
-        Write-Host $jsonContent
+        Write-Host $jsonString
       shell: pwsh
       env:
         AZURE_PUBLISH_PROFILE: ${{ secrets.AZURE_PUBLISH_PROFILE }}
