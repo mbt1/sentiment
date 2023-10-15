@@ -11,17 +11,18 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.8'  # replace with your desired version
+        python-version: '3.12' 
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+      working-directory: ./backend
 
     - name: Login to Azure
       uses: azure/login@v1
@@ -29,9 +30,15 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy to Azure Functions
-      uses: azure/functions-action@v1
+      uses: azure/functions-action@v1.5.1
       with:
-        app-name: YourFunctionAppName  # replace with your Function App name
-        package: ./
+        app-name: sentimentabot
+        package: ./backend
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
 
+
+# Run the following commands in an Azure Cloud Shell terminal to get the values for the two secrets
+# az account set --subscription DemoAndPortfolioProjects
+# $resourceGroupId = az group show --name "Sentimentabot" --query "id" --output tsv
+# az ad sp create-for-rbac --name "your-service-principal-name" --role contributor --scopes $resourceGroupId --sdk-auth
+# az webapp deployment list-publishing-profiles --name sentimentabot --resource-group Sentimentabot --query "[?publishMethod=='MSDeploy'].{profileName:profileName,publishUrl:publishUrl,userName:userName,userPWD:userPWD}" --output json
