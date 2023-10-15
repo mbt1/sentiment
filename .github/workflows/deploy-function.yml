@@ -47,5 +47,5 @@ jobs:
 # $resourceGroupId = az group show --name "Sentimentabot" --query "id" --output tsv
 # az ad sp create-for-rbac --name "your-service-principal-name" --role contributor --scopes $resourceGroupId --sdk-auth
 # az webapp deployment list-publishing-profiles --name sentimentabot --resource-group Sentimentabot --query "[?publishMethod=='MSDeploy'].{profileName:profileName,publishUrl:publishUrl,userName:userName,userPWD:userPWD}" --output json
-az webapp deployment list-publishing-profiles --name sentimentabot --resource-group Sentimentabot --subscription DemoAndPortfolioProjects
+# az webapp deployment list-publishing-profiles --name sentimentabot --resource-group Sentimentabot --subscription DemoAndPortfolioProjects
 
