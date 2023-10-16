@@ -1,0 +1,11 @@
+{
+    "id": "AzureFunctions",
+    "version": "1.0.0",
+    "name": "AzureFunctions",
+    "description": "Installs AzureFunctions along with needed dependencies.",
+    "options": {
+        },
+    "installsAfter": [
+        "Node.js"
+    ]
+}

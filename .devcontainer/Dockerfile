@@ -1,0 +1,11 @@
+# Use the specified image as the base
+FROM mcr.microsoft.com/devcontainers/python:3.8
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs npm
+
+# Update PATH and install Mastodon.py
+RUN export PATH=$PATH:$(dirname $(which pip)) && pip install Mastodon.py==1.8.1
+
+# Update PATH for npm and install Azure Functions Core Tools
+RUN export PATH=$PATH:$(dirname $(which npm)) && npm install -g azure-functions-core-tools@4

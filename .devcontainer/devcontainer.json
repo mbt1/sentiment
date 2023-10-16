@@ -3,16 +3,14 @@
 {
 	"name": "Sentiment (Python)",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python",
+	// "image": "mcr.microsoft.com/devcontainers/python",
+	"dockerFile": "Dockerfile",
 	"remoteEnv": {
 		"MASTODON_SENTIMENT_MASTODON_API_KEY": "${localEnv:MASTODON_SENTIMENT_MASTODON_API_KEY}"
 	},	
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
-		"./Flask":{},
-		"./Node.js":{},
 		"./React":{},
-		"./Mastodon":{},
 	},
 	// Configure tool-specific properties.
 	"customizations": {
@@ -20,7 +18,8 @@
 		"vscode": {
 			"settings": {},
 			"extensions": [
-				"github.vscode-github-actions"
+				"github.vscode-github-actions",
+				"ms-azuretools.vscode-azurefunctions"
 			]
 		}
 	},

@@ -1,22 +1,18 @@
-from flask import Flask, render_template, jsonify
+import azure.functions as func
 from mastodon import Mastodon
 import os
+import json
 
-mastodon = Mastodon(
-    access_token=os.environ.get('MASTODON_SENTIMENT_MASTODON_API_KEY'),
-    api_base_url='https://mas.to/'  # Replace with the Mastodon instance URL
-)
-
-app = Flask(__name__)
-
-@app.route('/api/public_toots', methods=['GET'])
-def get_public_toots():
+@func.HttpTrigger
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    mastodon = Mastodon(
+        access_token=os.environ.get('MASTODON_SENTIMENT_MASTODON_API_KEY'),
+        api_base_url='https://mas.to/'  # Replace with the Mastodon instance URL
+    )
+    
     public_toots = mastodon.timeline_public()
-    return jsonify(public_toots)
-
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    
+    return func.HttpResponse(
+        json.dumps(public_toots),
+        mimetype="application/json"
+    )
