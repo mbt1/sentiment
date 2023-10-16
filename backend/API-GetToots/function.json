@@ -1,5 +1,5 @@
 {
-  "scriptFile": "app.py",
+  "scriptFile": "GetToots.py",
   "bindings": [
     {
       "authLevel": "anonymous",
@@ -7,13 +7,14 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get"
-      ]
+        "get","post"
+      ],
+      "route":"api/toots/"
     },
     {
       "type": "http",
       "direction": "out",
-      "name": "res"
+      "name": "$return"
     }
   ]
 }

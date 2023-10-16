@@ -19,7 +19,9 @@
 			"settings": {},
 			"extensions": [
 				"github.vscode-github-actions",
-				"ms-azuretools.vscode-azurefunctions"
+				"ms-azuretools.vscode-azurefunctions",
+				"ms-python.python",
+				"redhat.vscode-yaml"
 			]
 		}
 	},
