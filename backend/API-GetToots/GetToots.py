@@ -10,7 +10,7 @@ def my_serializer(o):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     mastodon = Mastodon(
-        access_token=os.environ.get('MASTODON_SENTIMENT_MASTODON_API_KEY'),
+        access_token='', # os.environ.get('MASTODON_SENTIMENT_MASTODON_API_KEY'),
         api_base_url='https://mas.to/'  # Replace with the Mastodon instance URL
     )
     
