@@ -16,3 +16,7 @@ RUN pip install azure-keyvault-secrets
 
 # Install python venv
 RUN apt install python3.11-venv -y
+
+# Install typescript
+RUN npm install -g typescript 
+

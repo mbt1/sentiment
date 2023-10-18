@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   // stats: 'verbose',
 
-  entry: './src/index.js',
+  entry: './src/index.tsx',
   output: {
     // filename: '[name].bundle.js',
     filename: 'main.bundle.js',
@@ -13,7 +13,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.tsx', '.ts', '.js', '.scss'],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -25,16 +25,31 @@ module.exports = {
   ],
   module: {
     rules: [
+      // TypeScript Rule
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
       },
+      // SCSS Rule
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', // Injects styles into DOM
+          'css-loader',   // Translates CSS into CommonJS
+          'sass-loader'   // Compiles Sass to CSS
+        ],
+      },
+      // {
+      //   test: /\.jsx?$/,
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //     options: {
+      //       presets: ['@babel/preset-env', '@babel/preset-react'],
+      //     },
+      //   },
+      // },
     ],
   },
   // optimization: {
