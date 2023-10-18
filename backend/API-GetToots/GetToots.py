@@ -8,12 +8,16 @@ from azure.identity import DefaultAzureCredential
 
 def get_mastodon_base_url():
     # For local development on mac use these to set the variables
-    # launchctl setenv MASTODON_BASE_URL https://mas.to/
+    # launchctl setenv MASTODON_BASE_URL https://mastodon.world/
+    # for Azure use this in an Azure Cloud Shell
+    # az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "MASTODON_BASE_URL=https://mastodon.world/"
     return os.environ.get("MASTODON_BASE_URL")
 
 def get_mastodon_api_key_in_azure():
     # For local development on mac use these to set the variables
     # launchctl setenv MASTODON_SENTIMENT_MASTODON_API_KEY [...]
+    # for Azure use this in an Azure Cloud Shell
+    # az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "KEY_VAULT_NAME=Sentimentabot-KV"
 
     keyVaultSecretNameForAPIKey = "mastodon-api-key"
     keyVaultName = os.environ.get("KEY_VAULT_NAME")
