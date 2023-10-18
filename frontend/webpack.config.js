@@ -39,6 +39,7 @@ module.exports = {
           'css-loader',   // Translates CSS into CommonJS
           'sass-loader'   // Compiles Sass to CSS
         ],
+        exclude: /node_modules/,
       },
       // {
       //   test: /\.jsx?$/,
