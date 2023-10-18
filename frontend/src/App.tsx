@@ -1,5 +1,6 @@
 import React from 'react';
 import Toots from './Toots';
+import './App.scss';
 
 const App: React.FC = () => {
   return (
