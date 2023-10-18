@@ -56,8 +56,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
     # Fetch toots based on search term. Assuming MastodonAPI has a method get_toots_by_search_term
     # public_toots = mastodon.search_v2(q=search_term, result_type='statuses')
-    
+    max_id = None #111093673846648284 -1# 111093680257171174 - 100
+    #print(max_id)
+    result = (mastodon.search_v2(q=search_term,result_type='statuses',max_id=max_id))['statuses']
+
     return func.HttpResponse(
-        json.dumps(mastodon.search_v2(q=search_term,result_type='statuses'),default=my_serializer),
+        json.dumps(result,default=my_serializer),
         mimetype="application/json"
     )
