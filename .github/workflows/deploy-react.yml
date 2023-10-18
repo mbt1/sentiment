@@ -11,6 +11,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: build-react-app
 
     steps:
     - name: Checkout code
@@ -42,7 +43,10 @@ jobs:
       working-directory: ./frontend
   
     - name: Build
-      run: npm run build
+      run: |
+        export REACT_APP_TARGET_API_BASE_URL=${{ env.REACT_APP_TARGET_API_BASE_URL }}
+        echo $REACT_APP_TARGET_API_BASE_URL
+        npm run build
       working-directory: ./frontend
 
     - name: ShowOutput
