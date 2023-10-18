@@ -28,7 +28,7 @@ def get_mastodon_api_key_in_azure():
 
     print(f"Retrieving your {keyVaultSecretNameForAPIKey} from {keyVaultUri}.")
     mastodonAPIKey = keyVaultClient.get_secret(keyVaultSecretNameForAPIKey)
-    return mastodonAPIKey
+    return mastodonAPIKey.value
 
 def get_mastodon_api_key():
     def use_environment_for_key():
