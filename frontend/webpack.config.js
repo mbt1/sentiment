@@ -1,6 +1,9 @@
 const path = require('path');
+const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 
 module.exports = {
   // stats: 'verbose',
@@ -21,6 +24,11 @@ module.exports = {
       patterns: [
         { from: 'public', to: '' } // Copies all files from 'public' to 'dist'
       ],
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'REACT_APP_TARGET_API_BASE_URL': JSON.stringify(process.env.REACT_APP_TARGET_API_BASE_URL),
+      },
     }),
   ],
   module: {

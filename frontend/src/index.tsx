@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import App from './App'
 
-
-const App: React.FC = () => {
-  return <h1>Hello, World!</h1>;
-};
 
 const root = document.getElementById('root');
 if (root === null) {
