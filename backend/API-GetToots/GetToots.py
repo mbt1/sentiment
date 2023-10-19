@@ -1,8 +1,8 @@
+from . import ReadEnvironment
 import azure.functions as func
 from mastodon import Mastodon
 import json
 from datetime import datetime
-import ReadEnvironment
 
 env_reader = ReadEnvironment()
 
