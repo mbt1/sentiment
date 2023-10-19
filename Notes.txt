@@ -11,3 +11,7 @@ https://www.kaggle.com/datasets/cosmos98/twitter-and-reddit-sentimental-analysis
 Example Code
 https://www.kaggle.com/code/malekmavetgaming/classifying-tweets-using-nlp-in-tensorflow-2-0
 
+Pre-Trained Models
+https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/quickstart?tabs=macos&pivots=programming-language-python
+
+
