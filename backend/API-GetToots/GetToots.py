@@ -11,6 +11,9 @@ def my_serializer(o):
         return o.isoformat()
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+
+    print("GetToots started")
+    
     mastodon = Mastodon(
         access_token= env_reader.mastodonAPIKey(),
         api_base_url= env_reader.mastodonBaseURL()  

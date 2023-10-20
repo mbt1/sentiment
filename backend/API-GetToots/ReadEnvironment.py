@@ -56,7 +56,11 @@ class EnvironmentReader:
             return self._get_environment_variable(env_variable_name)
 
     def __init__(self):
+        print("EnvironmentReader instanciated")
         self._KEY_VAULT_NAME = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME)
+        print(f'This is the keyvault name: {self._KEY_VAULT_NAME}')
+        print(f'This is whether we should use the keyvault : {self._use_keyvault()}')
+        
         self._MASTODON_BASE_URL = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_MASTODON_BASE_URL)
         self._MASTODON_API_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY, self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY)
         self._LANGUAGE_MODEL_ENDPOINT = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_ENDPOINT)
