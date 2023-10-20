@@ -34,6 +34,7 @@ class EnvironmentReader:
     _ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME = 'MASTODON_SENTIMENT_KEY_VAULT_NAME'
 
     def _get_environment_variable(self, key):
+        print(f'Reading {key} from environment.')
         return os.environ.get(key)
 
     def _get_secret(self, secret_name):
@@ -42,6 +43,7 @@ class EnvironmentReader:
         keyVaultClient = SecretClient(vault_url=keyVaultUri, credential=keyVaultCredential)
 
         mastodonAPIKey = keyVaultClient.get_secret(secret_name)
+        print(f'Reading {secret_name} from keyvault.')
         return mastodonAPIKey.value
 
     def _use_keyvault(self):
