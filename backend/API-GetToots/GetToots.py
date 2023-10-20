@@ -13,7 +13,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     env_reader = ReadEnvironment.EnvironmentReader()
 
-    logging.critical("GetToots started")
+    logging.debug("GetToots started")
 
     mastodon = Mastodon(
         access_token= env_reader.mastodonAPIKey(),
