@@ -4,7 +4,7 @@ from mastodon import Mastodon
 import json
 from datetime import datetime
 
-env_reader = ReadEnvironment()
+env_reader = ReadEnvironment.ReadEnvironment()
 
 def my_serializer(o):
     if isinstance(o, datetime):
