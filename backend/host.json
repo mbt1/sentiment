@@ -16,6 +16,9 @@
       "Function": "Trace",
       "Host.Aggregator": "Trace"
     }
+  },
+  "aggregator": {
+    "batchSize": 1,
+    "flushTimeout": "00:00:01"
   }
-
 }
