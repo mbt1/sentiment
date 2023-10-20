@@ -1,3 +1,4 @@
+import logging
 from . import ReadEnvironment
 import azure.functions as func
 from mastodon import Mastodon
@@ -12,8 +13,8 @@ def my_serializer(o):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
-    print("GetToots started")
-    
+    logging.info("GetToots started")
+
     mastodon = Mastodon(
         access_token= env_reader.mastodonAPIKey(),
         api_base_url= env_reader.mastodonBaseURL()  

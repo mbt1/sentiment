@@ -1,6 +1,7 @@
 import os
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
+import logging
 
 # For local development on mac use these to set the variables
 # launchctl setenv MASTODON_BASE_URL https://mastodon.world/
@@ -34,7 +35,7 @@ class EnvironmentReader:
     _ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME = 'MASTODON_SENTIMENT_KEY_VAULT_NAME'
 
     def _get_environment_variable(self, key):
-        print(f'Reading {key} from environment.')
+        logging.info(f'Reading {key} from environment.')
         return os.environ.get(key)
 
     def _get_secret(self, secret_name):
@@ -43,7 +44,7 @@ class EnvironmentReader:
         keyVaultClient = SecretClient(vault_url=keyVaultUri, credential=keyVaultCredential)
 
         mastodonAPIKey = keyVaultClient.get_secret(secret_name)
-        print(f'Reading {secret_name} from keyvault.')
+        logging.info(f'Reading {secret_name} from keyvault.')
         return mastodonAPIKey.value
 
     def _use_keyvault(self):
@@ -56,11 +57,11 @@ class EnvironmentReader:
             return self._get_environment_variable(env_variable_name)
 
     def __init__(self):
-        print("EnvironmentReader instanciated")
+        logging.info("EnvironmentReader instanciated")
         self._KEY_VAULT_NAME = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME)
-        print(f'This is the keyvault name: {self._KEY_VAULT_NAME}')
-        print(f'This is whether we should use the keyvault : {self._use_keyvault()}')
-        
+        logging.info(f'This is the keyvault name: {self._KEY_VAULT_NAME}')
+        logging.info(f'This is whether we should use the keyvault : {self._use_keyvault()}')
+
         self._MASTODON_BASE_URL = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_MASTODON_BASE_URL)
         self._MASTODON_API_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY, self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY)
         self._LANGUAGE_MODEL_ENDPOINT = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_ENDPOINT)
