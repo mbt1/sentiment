@@ -10,7 +10,7 @@ from azure.identity import DefaultAzureCredential
 # az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "MASTODON_BASE_URL=https://mastodon.world/"
 # az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "KEY_VAULT_NAME=Sentimentabot-KV"
 
-class ReadEnvironment:
+class EnvironmentReader:
     _MASTODON_API_KEY = None
     _MASTODON_BASE_URL = None
     _LANGUAGE_MODEL_ENDPOINT = None
@@ -51,8 +51,8 @@ class ReadEnvironment:
         self._KEY_VAULT_NAME = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME)
         self._MASTODON_BASE_URL = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_MASTODON_BASE_URL)
         self._MASTODON_API_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY, self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY)
-        # self._LANGUAGE_MODEL_ENDPOINT = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_ENDPOINT)
-        # self._LANGUAGE_MODEL_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_KEY, self._KEY_VAULT_SECRET_NAME_FOR_LANGUAGE_MODEL_KEY)
+        self._LANGUAGE_MODEL_ENDPOINT = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_ENDPOINT)
+        self._LANGUAGE_MODEL_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_KEY, self._KEY_VAULT_SECRET_NAME_FOR_LANGUAGE_MODEL_KEY)
 
     def mastodonBaseURL(self):
         return self._MASTODON_BASE_URL
