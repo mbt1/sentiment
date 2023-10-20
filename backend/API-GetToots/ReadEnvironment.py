@@ -35,7 +35,7 @@ class EnvironmentReader:
     _ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME = 'MASTODON_SENTIMENT_KEY_VAULT_NAME'
 
     def _get_environment_variable(self, key):
-        logging.warning(f'Reading {key} from environment.')
+        logging.critical(f'Reading {key} from environment.')
         return os.environ.get(key)
 
     def _get_secret(self, secret_name):
@@ -44,7 +44,7 @@ class EnvironmentReader:
         keyVaultClient = SecretClient(vault_url=keyVaultUri, credential=keyVaultCredential)
 
         mastodonAPIKey = keyVaultClient.get_secret(secret_name)
-        logging.warning(f'Reading {secret_name} from keyvault.')
+        logging.critical(f'Reading {secret_name} from keyvault.')
         return mastodonAPIKey.value
 
     def _use_keyvault(self):
@@ -57,10 +57,10 @@ class EnvironmentReader:
             return self._get_environment_variable(env_variable_name)
 
     def __init__(self):
-        logging.warning("EnvironmentReader instanciated")
+        logging.critical("EnvironmentReader instantiated")
         self._KEY_VAULT_NAME = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME)
-        logging.warning(f'This is the keyvault name: {self._KEY_VAULT_NAME}')
-        logging.warning(f'This is whether we should use the keyvault : {self._use_keyvault()}')
+        logging.critical(f'This is the keyvault name: {self._KEY_VAULT_NAME}')
+        logging.critical(f'This is whether we should use the keyvault : {self._use_keyvault()}')
 
         self._MASTODON_BASE_URL = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_MASTODON_BASE_URL)
         self._MASTODON_API_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY, self._ENV_VARIABLE_NAME_FOR_MASTODON_API_KEY)
@@ -68,9 +68,11 @@ class EnvironmentReader:
         self._LANGUAGE_MODEL_KEY = self._get_secret_locally_or_vault(self._ENV_VARIABLE_NAME_FOR_LANGUAGE_MODEL_KEY, self._KEY_VAULT_SECRET_NAME_FOR_LANGUAGE_MODEL_KEY)
 
     def mastodonBaseURL(self):
+        logging.critical("mastodonBaseURL called")
         return self._MASTODON_BASE_URL
     
     def mastodonAPIKey(self):
+        logging.critical("mastodonAPIKey called")
         return self._MASTODON_API_KEY
     
     def languageModelKey(self):

@@ -5,15 +5,15 @@ from mastodon import Mastodon
 import json
 from datetime import datetime
 
-env_reader = ReadEnvironment.EnvironmentReader()
-
 def my_serializer(o):
     if isinstance(o, datetime):
         return o.isoformat()
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
-    logging.warning("GetToots started")
+    env_reader = ReadEnvironment.EnvironmentReader()
+
+    logging.critical("GetToots started")
 
     mastodon = Mastodon(
         access_token= env_reader.mastodonAPIKey(),
