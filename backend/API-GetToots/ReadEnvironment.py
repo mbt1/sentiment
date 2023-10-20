@@ -4,11 +4,17 @@ from azure.identity import DefaultAzureCredential
 
 # For local development on mac use these to set the variables
 # launchctl setenv MASTODON_BASE_URL https://mastodon.world/
+# launchctl setenv MASTODON_SENTIMENT_LANGUAGE_MODEL_ENDPOINT https://sentimentabotlanguagemodel.cognitiveservices.azure.com/
 # launchctl setenv MASTODON_SENTIMENT_MASTODON_API_KEY [...]
+# launchctl setenv MASTODON_SENTIMENT_LANGUAGE_MODEL_KEY [...]
 
 # for Azure use this in an Azure Cloud Shell
+# az account set --subscription [...]
 # az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "MASTODON_BASE_URL=https://mastodon.world/"
+# az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "MASTODON_SENTIMENT_LANGUAGE_MODEL_ENDPOINT=https://sentimentabotlanguagemodel.cognitiveservices.azure.com/"
 # az functionapp config appsettings set --name sentimentabot --resource-group Sentimentabot --settings "KEY_VAULT_NAME=Sentimentabot-KV"
+# az keyvault secret set --vault-name "Sentimentabot-KV" --content-type "text/plain" --name "language-model-api-key" --value "..."
+# az keyvault secret set --vault-name "Sentimentabot-KV" --content-type "text/plain" --name "mastodon-api-key" --value "..."
 
 class EnvironmentReader:
     _MASTODON_API_KEY = None
