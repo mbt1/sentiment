@@ -13,7 +13,7 @@ def my_serializer(o):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
-    logging.info("GetToots started")
+    logging.warning("GetToots started")
 
     mastodon = Mastodon(
         access_token= env_reader.mastodonAPIKey(),
