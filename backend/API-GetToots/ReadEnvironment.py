@@ -18,6 +18,8 @@ import logging
 # az keyvault secret set --vault-name "Sentimentabot-KV" --content-type "text/plain" --name "mastodon-api-key" --value "..."
 
 class EnvironmentReader:
+    __instance = None #singleton pattern
+
     _MASTODON_API_KEY = None
     _MASTODON_BASE_URL = None
     _LANGUAGE_MODEL_ENDPOINT = None
@@ -56,7 +58,13 @@ class EnvironmentReader:
         else:
             return self._get_environment_variable(env_variable_name)
 
-    def __init__(self):
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super(EnvironmentReader, cls).__new__(cls)
+            cls.__instance._init_secrets()
+        return cls.__instance
+
+    def _init_secrets(self):
         logging.debug("EnvironmentReader instantiated")
         self._KEY_VAULT_NAME = self._get_environment_variable(self._ENV_VARIABLE_NAME_FOR_KEY_VAULT_NAME)
         logging.debug(f'This is the keyvault name: {self._KEY_VAULT_NAME}')

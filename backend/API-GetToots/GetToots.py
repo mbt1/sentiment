@@ -1,5 +1,6 @@
 import logging
 from . import ReadEnvironment
+from . import SentimentAnalyzer
 import azure.functions as func
 from mastodon import Mastodon
 import json
@@ -8,6 +9,22 @@ from datetime import datetime
 def my_serializer(o):
     if isinstance(o, datetime):
         return o.isoformat()
+
+def add_sentiments_to_statuses_inplace(statuses):
+    raw_texts = [status['content'] for status in statuses]
+    sentiment_analyzer = SentimentAnalyzer.SentimentAnalyzer()
+    sentiments = sentiment_analyzer.analyze_sentiment(raw_texts=raw_texts)
+
+    for idx, status in enumerate(statuses):
+        sentiment_result = sentiments[idx]
+        status['sentiment'] = {
+            'positive_score': sentiment_result.confidence_scores.positive,
+            'neutral_score': sentiment_result.confidence_scores.neutral,
+            'negative_score': sentiment_result.confidence_scores.negative,
+            'overall_sentiment': sentiment_result.sentiment
+        }
+
+
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
@@ -25,13 +42,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if not search_term:
         return func.HttpResponse("Please pass a search_term in the query string.", status_code=400)
     
-    # Fetch toots based on search term. Assuming MastodonAPI has a method get_toots_by_search_term
     # public_toots = mastodon.search_v2(q=search_term, result_type='statuses')
     max_id = None #111093673846648284 -1# 111093680257171174 - 100
     #print(max_id)
-    result = (mastodon.search_v2(q=search_term,result_type='statuses',max_id=max_id))['statuses']
-
+    statuses = (mastodon.search_v2(q=search_term,result_type='statuses',max_id=max_id))['statuses']
+    add_sentiments_to_statuses_inplace(statuses=statuses)
+    
     return func.HttpResponse(
-        json.dumps(result,default=my_serializer),
+        json.dumps(statuses,default=my_serializer),
         mimetype="application/json"
     )
