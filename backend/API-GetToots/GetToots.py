@@ -14,14 +14,15 @@ def add_sentiments_to_statuses_inplace(statuses):
     raw_texts = [status['content'] for status in statuses]
     sentiment_analyzer = SentimentAnalyzer.SentimentAnalyzer()
     sentiments = sentiment_analyzer.analyze_sentiment(raw_texts=raw_texts)
-
+    
+    logging.critical(sentiments)
     for idx, status in enumerate(statuses):
         sentiment_result = sentiments[idx]
         status['sentiment'] = {
-            'positive_score': sentiment_result.confidence_scores.positive,
-            'neutral_score': sentiment_result.confidence_scores.neutral,
-            'negative_score': sentiment_result.confidence_scores.negative,
-            'overall_sentiment': sentiment_result.sentiment
+            'positive_score': sentiment_result[1].positive,
+            'neutral_score': sentiment_result[1].neutral,
+            'negative_score': sentiment_result[1].negative,
+            'overall_sentiment': sentiment_result[0]
         }
 
 
