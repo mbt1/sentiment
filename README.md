@@ -1,54 +1,67 @@
-This is the proposed architecture for the Mastodon sentiment analysis application. 
+# Mastodon Toot Sentiment Analyzer
 
-### Model Training with OpenAI-Generated Data
+This is a portfolio project, using several modern technologies, including:
 
-1. **Data Collection**: Use Python or other tools to collect and preprocess text data. You could potentially use OpenAI's GPT models to generate synthetic training data.
+* React frontend hosted in Gihub Pages
+  * Typescript
+  * SCSS  
+* Python backend hosted in Azure Functions
+* Azure ML
+* Fully automated deployment using Github Actions
+* Development Environment in a DevContainer that includes
+  * Backend Server to emulate that Azure Function environment
+  * Frontend Server to host the React app. This includes an on the fly auto-updating server (npm start) as well as a separate run a full compile local server (npm buildserve)
+ 
+The app is accessible at [https://mbt1.github.io/sentiment](https://mbt1.github.io/sentiment).
 
-2. **Training the Model**: Use a machine learning library like TensorFlow or PyTorch to train your model. You can host your training on cloud services like Azure ML.
+(c)2023, mbt1, all rights reserved.
+Source code published under the [Apache 2.0 license](https://github.com/mbt1/sentiment/blob/main/LICENSE).
 
-3. **Continuous Training with GitHub Actions**: Automate the training using GitHub Actions whenever new data is pushed to your repository. This pipeline can push the trained model to Azure Blob Storage or directly to your Azure Function app.
-
-4. **Hosting the Model**: Azure ML or Azure Functions with a custom container can serve your trained model.
+## Current Architecture: 
 
 ### Python Backend on Azure Functions
 
-1. **API Endpoints**: Set up HTTP-triggered Azure Functions for your endpoints. One function could take a Mastodon username as a parameter and return the user's latest toots with sentiment analysis.
+1. **API Endpoints**: Set up HTTP-triggered Azure Functions for your endpoints.
 
-2. **Calling the ML Model**: Your function should be able to make HTTP requests to your Azure ML model (or load it in-memory, if possible) to get sentiment analysis results.
+2. **Calling the ML Model**: The function makes HTTP requests to Mastodon and to the Azure ML model to get sentiment analysis results.
 
-3. **Response**: Use JSON responses that include the original toot and the sentiment analysis.
+3. **Response**: The response is in JSON that includes the original toot and the sentiment analysis.
 
-4. **Security**: Use API keys or Azure AD for secure API access.
+4. **Security**: API keys are stored in Azure KeyVault.
 
-5. **Environment Variables**: Use Azure Function app settings for secure storage of sensitive data like API keys. Access these in your code using the `os` library in Python.
+5. **Environment Variables**: Other settings live in the Azure Function Settings
+
+6. **Deployment**: The function is deployed automatically on checkin using a GitHub Action
 
 ### React Frontend on GitHub Pages
 
-1. **API Consumption**: Your React app should be able to make HTTP requests to your Azure Function API and display the results.
+1. **API Consumption**: Your React makes HTTP requests to the Azure Function API and display the results.
 
-2. **State Management**: Use React's built-in state management or libraries like Redux to handle application state.
+2. **State Management**: The App is using React patterns like React.useEffect() for state management.
 
-3. **Deployment**: Use GitHub Actions to build and deploy your React app to GitHub Pages whenever changes are pushed to the repository.
+3. **Deployment**: The app is build and deployed automatically to GitHub Pages using two separate GitHub Actions. The first on builds the app and "publishes" to a special branch in this repository. The second deploys that branch's content to GitHub Pages if it detects a change. 
 
-4. **Environment Variables**: Use `.env` files or GitHub Secrets for frontend environment variables like the API URL.
+4. **Environment Variables**: The API URL is set on deploy, so no env variables are needed.
 
 ### Integration
 
-1. **Backend to Model**: Use HTTP requests or Azure SDKs to call your hosted model for analysis.
+1. **Backend to Mastodon and to the Model**: This is handled using libraries.
   
-2. **Frontend to Backend**: Use HTTP requests to fetch and send data to and from your Azure Function API.
+2. **Frontend to Backend**: HTTP requests are used to fetch and send data to and from the Azure Function.
 
-3. **CORS**: Make sure CORS settings are correctly set in your Azure Function to accept requests from your GitHub Pages domain.
+3. **CORS**: CORS settings are set in the Azure Function to accept requests from the GitHub Pages domain.
 
-4. **Captcha**: Use Google Captch V3.0 to limit API misuse
+Everything above lives in this (mono)repo.
 
-5. **Rate Limiting**: Consider implementing rate limiting on your Azure Function to prevent abuse.
+## Future Features
 
-Each of these components could be in a monorepo. Make sure to have good README files for each so that any developer can understand how to run or contribute to each component.
+### Rate Limiting
+
+* currently there is very rudimentary rate limiting deployed in the app. This should be more robust.
 
 ### Captcha 
 
-When using a CAPTCHA service like Google's reCAPTCHA, you'll need two keys: a "site key" that is publicly visible and used within the client-side JavaScript, and a "secret key" that should be kept secure on the server-side. The "site key" is used to display the CAPTCHA challenge in the browser, and the "secret key" is used to verify the user's answer on the server-side.
+When using a CAPTCHA service like Google's reCAPTCHA, we'll need two keys: a "site key" that is publicly visible and used within the client-side JavaScript, and a "secret key" that should be kept secure on the server-side. The "site key" is used to display the CAPTCHA challenge in the browser, and the "secret key" is used to verify the user's answer on the server-side.
 
 Here's a simplified workflow:
 
@@ -56,14 +69,27 @@ Here's a simplified workflow:
   
 2. **User Action**: The user completes the CAPTCHA challenge.
 
-3. **Client-Side**: Once the CAPTCHA is completed, Google's servers provide a "response" token, which your React app then sends to your backend server along with any other data (like the API request you want to make).
+3. **Client-Side**: Once the CAPTCHA is completed, Google's servers provide a "response" token, which the React app then sends to the backend server along with any other data (like the API request you want to make).
 
-4. **Server-Side**: Your backend receives this "response" token and uses the "secret key" to call Google's server for verification.
+4. **Server-Side**: The backend receives this "response" token and uses the "secret key" to call Google's server for verification.
 
 5. **Verification**: Google's server will respond to your server, confirming whether or not the CAPTCHA was successfully completed.
 
-6. **Server Response**: Depending on the verification result, your server will then either process the user's original API request or return an error.
+6. **Server Response**: Depending on the verification result, the function will then either process the user's original API request or return an error.
 
-So, while your React app does "provide a token to the CAPTCHA provider," this token is not the same as the "secret key," which remains secure on your server. The token provided by Google is specifically meant to be passed back to your server for verification. This is adding an additional layer of verification that is intended to ensure that the request comes from a human.
+So, while the React app does "provide a token to the CAPTCHA provider," this token is not the same as the "secret key," which remains secure on the server. The token provided by Google is specifically meant to be passed back to your server for verification. This is adding an additional layer of verification that is intended to ensure that the request comes from a human.
 
-That said, like any other API, CAPTCHAs aren't foolproof. They add an additional layer of security but shouldn't be the only measure you take. Combining them with other security best practices can make your API more resilient to misuse.
+That said, like any other API, CAPTCHAs aren't foolproof. They add an additional layer of security but shouldn't be the only measure we take. Combining them with other security best practices can make the API more resilient to misuse.
+
+### Model Training with OpenAI-Generated Data
+
+right now the app is relying on pretrained models provided by Azure. This should be changed to use our own models.
+
+1. **Data Collection**: Use Python or other tools to collect and preprocess text data. We could potentially use OpenAI's GPT models to generate synthetic training data.
+
+2. **Training the Model**: Use a machine learning library like TensorFlow or PyTorch to train the model. We can host the training process on Azure ML.
+
+3. **Continuous Training with GitHub Actions**: Automate the training using GitHub Actions whenever new data is pushed to the repository. This pipeline can push the trained model to Azure Blob Storage or directly to the Azure Function app.
+
+4. **Hosting the Model**: Azure ML or Azure Functions with a custom container can serve the trained model.
+
