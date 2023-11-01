@@ -25,8 +25,6 @@ def add_sentiments_to_statuses_inplace(statuses):
             'overall_sentiment': sentiment_result[0]
         }
 
-
-
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
     env_reader = ReadEnvironment.EnvironmentReader()
@@ -46,6 +44,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # public_toots = mastodon.search_v2(q=search_term, result_type='statuses')
     max_id = None #111093673846648284 -1# 111093680257171174 - 100
     #print(max_id)
+    
     statuses = (mastodon.search_v2(q=search_term,result_type='statuses',max_id=max_id))['statuses']
     add_sentiments_to_statuses_inplace(statuses=statuses)
     

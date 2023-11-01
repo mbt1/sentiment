@@ -18,21 +18,10 @@ class SentimentAnalyzer:
         return soup.get_text()
 
     def analyze_sentiment(self, raw_texts):
-        results = []
-        for i in range(0, len(raw_texts), 10):
-            chunk = raw_texts[i:i+10]
-            results += self.analyze_chunk(chunk)
-        return results
+        stepSize = 10
+        return [analysis for i in range(0,len(raw_texts),stepSize) for analysis in self.analyze_chunk(raw_texts[i:i+stepSize])]
 
     def analyze_chunk(self,raw_texts_chunk):
-        cleaned_texts = [self.clean_text(text) for text in raw_texts_chunk]
-        documents = [{"id": str(i+1), "language": "en", "text": cleaned_texts[i]} for i in range(len(cleaned_texts))]
-        
-        response = self.text_analytics_client.analyze_sentiment(documents=documents)
-        
-        results = []
-        for resp in response:
-            results.append((resp.sentiment, resp.confidence_scores))
-
-        return results
+        documents = [{"id": str(i), "language": "en", "text": self.clean_text(text)} for (i,text) in enumerate(raw_texts_chunk,1)]
+        return [(resp.sentiment, resp.confidence_scores) for resp in self.text_analytics_client.analyze_sentiment(documents=documents)]
     
