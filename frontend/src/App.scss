@@ -1,8 +1,56 @@
+@mixin nails($distance:5px,$SC1:#aaaaaa50,$SC2:#bbbbbb50,$SC3:#cccccc50,$SC4:#dddddd50,$SC5:#eeeeee50) {
+  position: relative; // For adding nails and drop shadow
+  // Nails in the corners
+  &::before, &::after, & > ::before, & > ::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(#ccc, #558);
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 
+    1px 1px 0px $SC1, 
+    2px 2px 0px $SC2, 
+    3px 3px 0px $SC3,
+    5px 4px 0px $SC4,
+    5px 5px 0px $SC5;
+
+  }
+  
+  &::before {
+    top: $distance;
+    left: $distance;
+  }
+  
+  &::after {
+    top: $distance;
+    right: $distance;
+  }
+  
+  & > ::before {
+    bottom: $distance;
+    left: $distance;
+  }
+  
+  & > ::after {
+    bottom: $distance;
+    right: $distance;
+  }
+}
+@mixin colorFrame($color:lightgray, $base:lightgray){
+  background: radial-gradient($base,$base,$base,$base, $color);
+  border-color: $color;
+}
+
+
 html{
   margin:0;
   padding:0;
   background: #EEE;
-  background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%23a0a0a0' fill-opacity='1'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  //background courtesy of https://heropatterns.com/
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 192 192'%3E%3Cpath fill='%23d1d1d1' fill-opacity='0.49' d='M192 15v2a11 11 0 0 0-11 11c0 1.94 1.16 4.75 2.53 6.11l2.36 2.36a6.93 6.93 0 0 1 1.22 7.56l-.43.84a8.08 8.08 0 0 1-6.66 4.13H145v35.02a6.1 6.1 0 0 0 3.03 4.87l.84.43c1.58.79 4 .4 5.24-.85l2.36-2.36a12.04 12.04 0 0 1 7.51-3.11 13 13 0 1 1 .02 26 12 12 0 0 1-7.53-3.11l-2.36-2.36a4.93 4.93 0 0 0-5.24-.85l-.84.43a6.1 6.1 0 0 0-3.03 4.87V143h35.02a8.08 8.08 0 0 1 6.66 4.13l.43.84a6.91 6.91 0 0 1-1.22 7.56l-2.36 2.36A10.06 10.06 0 0 0 181 164a11 11 0 0 0 11 11v2a13 13 0 0 1-13-13 12 12 0 0 1 3.11-7.53l2.36-2.36a4.93 4.93 0 0 0 .85-5.24l-.43-.84a6.1 6.1 0 0 0-4.87-3.03H145v35.02a8.08 8.08 0 0 1-4.13 6.66l-.84.43a6.91 6.91 0 0 1-7.56-1.22l-2.36-2.36A10.06 10.06 0 0 0 124 181a11 11 0 0 0-11 11h-2a13 13 0 0 1 13-13c2.47 0 5.79 1.37 7.53 3.11l2.36 2.36a4.94 4.94 0 0 0 5.24.85l.84-.43a6.1 6.1 0 0 0 3.03-4.87V145h-35.02a8.08 8.08 0 0 1-6.66-4.13l-.43-.84a6.91 6.91 0 0 1 1.22-7.56l2.36-2.36A10.06 10.06 0 0 0 107 124a11 11 0 0 0-22 0c0 1.94 1.16 4.75 2.53 6.11l2.36 2.36a6.93 6.93 0 0 1 1.22 7.56l-.43.84a8.08 8.08 0 0 1-6.66 4.13H49v35.02a6.1 6.1 0 0 0 3.03 4.87l.84.43c1.58.79 4 .4 5.24-.85l2.36-2.36a12.04 12.04 0 0 1 7.51-3.11A13 13 0 0 1 81 192h-2a11 11 0 0 0-11-11c-1.94 0-4.75 1.16-6.11 2.53l-2.36 2.36a6.93 6.93 0 0 1-7.56 1.22l-.84-.43a8.08 8.08 0 0 1-4.13-6.66V145H11.98a6.1 6.1 0 0 0-4.87 3.03l-.43.84c-.79 1.58-.4 4 .85 5.24l2.36 2.36a12.04 12.04 0 0 1 3.11 7.51A13 13 0 0 1 0 177v-2a11 11 0 0 0 11-11c0-1.94-1.16-4.75-2.53-6.11l-2.36-2.36a6.93 6.93 0 0 1-1.22-7.56l.43-.84a8.08 8.08 0 0 1 6.66-4.13H47v-35.02a6.1 6.1 0 0 0-3.03-4.87l-.84-.43c-1.59-.8-4-.4-5.24.85l-2.36 2.36A12 12 0 0 1 28 109a13 13 0 1 1 0-26c2.47 0 5.79 1.37 7.53 3.11l2.36 2.36a4.94 4.94 0 0 0 5.24.85l.84-.43A6.1 6.1 0 0 0 47 84.02V49H11.98a8.08 8.08 0 0 1-6.66-4.13l-.43-.84a6.91 6.91 0 0 1 1.22-7.56l2.36-2.36A10.06 10.06 0 0 0 11 28 11 11 0 0 0 0 17v-2a13 13 0 0 1 13 13c0 2.47-1.37 5.79-3.11 7.53l-2.36 2.36a4.94 4.94 0 0 0-.85 5.24l.43.84A6.1 6.1 0 0 0 11.98 47H47V11.98a8.08 8.08 0 0 1 4.13-6.66l.84-.43a6.91 6.91 0 0 1 7.56 1.22l2.36 2.36A10.06 10.06 0 0 0 68 11 11 11 0 0 0 79 0h2a13 13 0 0 1-13 13 12 12 0 0 1-7.53-3.11l-2.36-2.36a4.93 4.93 0 0 0-5.24-.85l-.84.43A6.1 6.1 0 0 0 49 11.98V47h35.02a8.08 8.08 0 0 1 6.66 4.13l.43.84a6.91 6.91 0 0 1-1.22 7.56l-2.36 2.36A10.06 10.06 0 0 0 85 68a11 11 0 0 0 22 0c0-1.94-1.16-4.75-2.53-6.11l-2.36-2.36a6.93 6.93 0 0 1-1.22-7.56l.43-.84a8.08 8.08 0 0 1 6.66-4.13H143V11.98a6.1 6.1 0 0 0-3.03-4.87l-.84-.43c-1.59-.8-4-.4-5.24.85l-2.36 2.36A12 12 0 0 1 124 13a13 13 0 0 1-13-13h2a11 11 0 0 0 11 11c1.94 0 4.75-1.16 6.11-2.53l2.36-2.36a6.93 6.93 0 0 1 7.56-1.22l.84.43a8.08 8.08 0 0 1 4.13 6.66V47h35.02a6.1 6.1 0 0 0 4.87-3.03l.43-.84c.8-1.59.4-4-.85-5.24l-2.36-2.36A12 12 0 0 1 179 28a13 13 0 0 1 13-13zM84.02 143a6.1 6.1 0 0 0 4.87-3.03l.43-.84c.8-1.59.4-4-.85-5.24l-2.36-2.36A12 12 0 0 1 83 124a13 13 0 1 1 26 0c0 2.47-1.37 5.79-3.11 7.53l-2.36 2.36a4.94 4.94 0 0 0-.85 5.24l.43.84a6.1 6.1 0 0 0 4.87 3.03H143v-35.02a8.08 8.08 0 0 1 4.13-6.66l.84-.43a6.91 6.91 0 0 1 7.56 1.22l2.36 2.36A10.06 10.06 0 0 0 164 107a11 11 0 0 0 0-22c-1.94 0-4.75 1.16-6.11 2.53l-2.36 2.36a6.93 6.93 0 0 1-7.56 1.22l-.84-.43a8.08 8.08 0 0 1-4.13-6.66V49h-35.02a6.1 6.1 0 0 0-4.87 3.03l-.43.84c-.79 1.58-.4 4 .85 5.24l2.36 2.36a12.04 12.04 0 0 1 3.11 7.51A13 13 0 1 1 83 68a12 12 0 0 1 3.11-7.53l2.36-2.36a4.93 4.93 0 0 0 .85-5.24l-.43-.84A6.1 6.1 0 0 0 84.02 49H49v35.02a8.08 8.08 0 0 1-4.13 6.66l-.84.43a6.91 6.91 0 0 1-7.56-1.22l-2.36-2.36A10.06 10.06 0 0 0 28 85a11 11 0 0 0 0 22c1.94 0 4.75-1.16 6.11-2.53l2.36-2.36a6.93 6.93 0 0 1 7.56-1.22l.84.43a8.08 8.08 0 0 1 4.13 6.66V143h35.02z'%3E%3C/path%3E%3C/svg%3E");
+  // background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%23a0a0a0' fill-opacity='1'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   background-attachment: fixed;
 }
 body{
@@ -17,14 +65,38 @@ body{
 .toot-wrapper {
     display: flex;
     gap: 15px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 30px 10px;
+    background: #EEE;
+    // background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="0%25"%3E%3Cstop offset="0%25" style="stop-color:%23ccc;stop-opacity:1" /%3E%3Cstop offset="50%25" style="stop-color:%23fff;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%23ccc;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x="0" y="0" width="40" height="40" fill="url(%23grad)" /%3E%3Cline x1="0" y1="0" x2="40" y2="40" stroke="rgba(0, 0, 0, 0.1)" stroke-width="2"/%3E%3Cline x1="40" y1="0" x2="0" y2="40" stroke="rgba(0, 0, 0, 0.1)" stroke-width="2"/%3E%3C/svg%3E');
+    background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="0%25"%3E%3Cstop offset="0%25" style="stop-color:%23fff;stop-opacity:1" /%3E%3Cstop offset="50%25" style="stop-color:%23fff;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%23fff;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x="0" y="0" width="40" height="40" fill="url(%23grad)" /%3E%3Cline x1="0" y1="0" x2="40" y2="40" stroke="rgba(0, 0, 0, 0.1)" stroke-width="2"/%3E%3Cline x1="40" y1="0" x2="0" y2="40" stroke="rgba(0, 0, 0, 0.1)" stroke-width="2"/%3E%3C/svg%3E');
+    background-repeat: repeat;
+    background-size: 15px 15px;
+    // drop shadow
+    box-shadow: 
+      2px 2px 5px 2px #66666660, 
+      4px 4px 5px #88888860, 
+      6px 6px 5px #aaaaaa60,
+      8px 8px 5px #cccccc60,
+      10px 10px 5px #eeeeee60;
+
 }
 
 .toot-wrapper>div{
-    border: 1px solid gray;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px 0;
-    background-color:honeydew;
+  border: 2px solid gray;
+  border-radius: 10px;
+  background-color: #eee;
+  padding: 15px;
+  @include nails(10px, #00000000,#22222200,#44444400,#66666600,#88888800);
+  box-shadow: 
+  2px 2px 5px 2px #66666660, 
+  4px 4px 5px #88888860, 
+  6px 6px 5px #aaaaaa60,
+  8px 8px 5px #cccccc60,
+  10px 10px 5px #eeeeee60;
+
 }
 
 .toot {
@@ -35,35 +107,31 @@ body{
     flex: 1;
 }
   
-.positive>div {
-    background-color: lightgreen;
-}
-
-.neutral>div {
-    background-color: lightgray;
-}
-
-.negative>div {
-    background-color: lightcoral;
-}
-
-.mixed>div {
-    background-color: lightyellow;
-}
-
-.warning {
-    background-color: #f2dede;
-    color: #a94442;
-    border: 1px solid #ebccd1;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: bold;
+.positive{
+  &>div{
+    @include colorFrame(lightgreen,#dddddde0);
   }
+}
+
+.neutral{
+  &>div {
+    @include colorFrame(#aaa,#dddddde0);
+  }
+}
+
+.negative{
+  &>div {
+    @include colorFrame(lightcoral,#dddddde0);
+  }
+}
+
+.mixed{
+  &>div {
+    @include colorFrame(lightyellow,#dddddde0);
+  }
+}
 
   .search-form-wrapper {
-    position: relative; // For adding nails and drop shadow
     padding: 20px 40px;
     background-color: #f9f9f9;
     border: 1px solid #333;
@@ -71,65 +139,16 @@ body{
     width: fit-content;
     max-width: 90%; // Max width
     margin: 20px auto; // Centering
-    overflow: visible;
-    // 3D Effect Border
+
+    // drop shadow
     box-shadow: 
       2px 2px 5px 2px #66666660, 
       4px 4px 5px #88888860, 
       6px 6px 5px #aaaaaa60,
       8px 8px 5px #cccccc60,
       10px 10px 5px #eeeeee60;
-    
-    // Drop Shadow
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -25px;
-      right: -25px;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-      z-index: -1;
-    }
-    
-    // Nails in the corners
-    &::before, &::after, & > ::before, & > ::after {
-      content: "";
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: radial-gradient(#ccc, #558);
-      border-radius: 50%;
-      z-index: 1;
-      box-shadow: 
-      1px 1px 0px #aaaaaa50, 
-      2px 2px 0px #bbbbbb50, 
-      3px 3px 0px #cccccc50,
-      5px 4px 0px #dddddd50,
-      5px 5px 0px #eeeeee50;
-
-    }
-    
-    &::before {
-      top: 5px;
-      left: 5px;
-    }
-    
-    &::after {
-      top: 5px;
-      right: 5px;
-    }
-    
-    & > ::before {
-      bottom: 5px;
-      left: 5px;
-    }
-    
-    & > ::after {
-      bottom: 5px;
-      right: 5px;
-    }
+        
+    @include nails();
   }
   
 
@@ -183,6 +202,21 @@ body{
     background-size: 20px 100%;
     background-repeat: repeat-x;
     animation: moving-dots 60s linear infinite;
+    border: 1px solid #000;
+    padding: 15px 30px;
+    margin: 10px auto;
+    max-width: 80%;
+    border-radius: 4px;
+
+    span{
+      background: white;
+      border: 1px solid #000;
+      padding: 15px 30px;
+      margin: 10px 0;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+    }
   }
   @keyframes moving-dots {
     0% {
@@ -192,12 +226,36 @@ body{
       background-position: 100% 0;
     }
   }
-  .Loading span{
-    background: white;
-    border: 1px solid #000;
-    padding: 15px 30px;
+
+  .warning {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+    padding: 15px;
     margin: 10px 0;
     border-radius: 4px;
     text-align: center;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    padding: 15px 30px;
+    margin: 10px auto;
+    max-width: 80%;
+    border-radius: 4px;
+    @include nails();
+
+    span{
+      background: white;
+      border: 1px solid #f2dede;
+      padding: 15px 30px;
+      margin: 10px 0;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+      @include nails();
+    }
+  
   }
+

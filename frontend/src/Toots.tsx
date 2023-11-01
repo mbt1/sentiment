@@ -63,7 +63,7 @@ const App: React.FC<AppProps> = ({searchTerm}) => {
   if(searchTerm == ""){
     return(
       <>
-      <div className='warning'>Please provide a search term!</div>
+      <div className='warning'><span>Please provide a search term!</span></div>
       </>
     )
   }
