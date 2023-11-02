@@ -1,10 +1,12 @@
 import React from 'react';
 import createDOMPurify from 'dompurify';
 import DOMPurify from 'dompurify';
+import { SingleToot } from './SingleToot';
+import { SentimentBarHooks } from './SentimentBar';
 
 const targetAPIBaseURL = process.env.REACT_APP_TARGET_API_BASE_URL;
 
-interface Toot {
+export interface Toot {
   id: string;
   created_at: string;
   content: string;
@@ -29,6 +31,8 @@ interface AppProps {
 const App: React.FC<AppProps> = ({searchTerm}) => {
   const [toots, setToots] = React.useState<Toot[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  SentimentBarHooks();
 
   React.useEffect(() => {
     if(searchTerm!=""){
@@ -72,32 +76,10 @@ const App: React.FC<AppProps> = ({searchTerm}) => {
   }
   return (
     <div>
-    {toots.map((toot: Toot, index: number) => {
-      const name:string  = DOMPurify.sanitize(toot.account.display_name,DOMPurifyConfig) +' @'+ DOMPurify.sanitize(toot.account.username,DOMPurifyConfig)
-      const content:{ __html: string }  = {__html: ""+DOMPurify.sanitize(toot.content,DOMPurifyConfig)}
-      const spoiler:{ __html: string }  = {__html: "Spoiler: "+DOMPurify.sanitize(toot.spoiler_text,DOMPurifyConfig)}
-      const createdAt:string = "Created at:" +DOMPurify.sanitize(toot.created_at,DOMPurifyConfig)
-      return(
-        <div key={toot.id} className={`toot-wrapper ${toot.sentiment ? toot.sentiment.overall_sentiment : ''}`}>
-          <div className="toot">
-            <h3>{name}</h3>
-            <p dangerouslySetInnerHTML={content} />
-            {toot.spoiler_text && <span dangerouslySetInnerHTML={spoiler} />}
-            <small>{createdAt}</small>
-          </div>
-          {toot.sentiment && (
-            <div className="sentiment">
-              <h2>{toot.sentiment.overall_sentiment}</h2>
-              <p>Positive: {toot.sentiment.positive_score}</p>
-              <p>Neutral: {toot.sentiment.neutral_score}</p>
-              <p>Negative: {toot.sentiment.negative_score}</p>
-            </div>
-          )}
-        </div>
-      )}
-    )}
+    {toots.map(SingleToot(DOMPurify, DOMPurifyConfig))}
     </div>
   );
 };
 
 export default App;
+

@@ -111,11 +111,17 @@ body{
   &>div{
     @include colorFrame(lightgreen,#dddddde0);
   }
+  .sentiment-bar{
+    border-color: lightgreen
+  }
 }
 
 .neutral{
   &>div {
     @include colorFrame(#aaa,#dddddde0);
+  }
+  .sentiment-bar{
+    border-color: #aaa
   }
 }
 
@@ -123,11 +129,17 @@ body{
   &>div {
     @include colorFrame(lightcoral,#dddddde0);
   }
+  .sentiment-bar{
+    border-color: lightcoral
+  }
 }
 
 .mixed{
   &>div {
     @include colorFrame(lightyellow,#dddddde0);
+  }
+  .sentiment-bar{
+    border-color: lightyellow
   }
 }
 
@@ -259,3 +271,56 @@ body{
   
   }
 
+.sentiment-bar {
+    display: grid;
+    grid-template-columns: repeat(100, 1fr);
+    width: 90%;
+    height: 20px;
+    margin: 3px auto;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    padding: 1px;
+    background-color: #fff;
+  
+  .sentiment-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+    font-size: 0; // Initialize to 0 to hide text initially
+  
+    &.positive {
+      background-color: lightgreen;
+    }
+  
+    &.neutral {
+      background-color: #aaa;
+      color: #000;
+    }
+  
+    &.negative {
+      background-color: lightcoral;
+    }
+  
+    &::before {
+      content: attr(data-value);
+      position: absolute;
+      bottom: auto;
+      top: auto;
+      right: auto;
+      left: auto;
+      // transform: translateX(-50%);
+      color: #000;
+      font-size: 10px;
+      z-index: 1;
+    }
+  
+    // Condition to show inside the bar based on min-width
+    &.hide-label {
+      &::before {
+        content: "";
+      }
+    }
+  }
+}
